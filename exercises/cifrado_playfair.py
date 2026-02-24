@@ -110,6 +110,7 @@ palabra = "hello world"
 palabra_cifrada = cifrado_playfair(palabra, clave)
 palabra_descifrada = descifrado_playfair(palabra_cifrada, clave)
 
-print(palabra)
-print(palabra_cifrada)
-print(palabra_descifrada)
+print(f"La palabra es: {palabra}")
+print(f"La clave es: {clave}")
+print(f"La palabra cifrada es: {palabra_cifrada}")
+print(f"La palabra descifrada es: {palabra_descifrada}")
