@@ -1,7 +1,7 @@
 def cifrado_playfair(mensaje, clave):
     # Paso 1:
-    mensaje = mensaje.upper().replace("I", "J")
-    clave = clave.upper().replace("I", "J")
+    mensaje = mensaje.upper().replace("J", "I")
+    clave = clave.upper().replace("J", "I")
 
     alfabeto = "ABCDEFGHIKLMNOPQRSTUVWXYZ"
 
@@ -24,9 +24,7 @@ def cifrado_playfair(mensaje, clave):
 
     # Paso 2
     pares = []
-    print(mensaje)
     limpio = "".join([c for c in mensaje if c.isalpha()])
-    print(limpio)
     i = 0
     while i < len(limpio):
         a = limpio[i]
@@ -34,9 +32,10 @@ def cifrado_playfair(mensaje, clave):
 
         if a == b:
             pares.append((a, "X"))
+            i += 1
         else:
             pares.append((a, b))
-        i += 2
+            i += 2
 
     def pos(letra):
         for i in range(5):
@@ -52,8 +51,6 @@ def cifrado_playfair(mensaje, clave):
 
         fa, ca = pos(a)
         fb, cb = pos(b)
-        print(fa, ca)
-        break
 
         # Caso 1 distinta fila y columna
         if fa != fb and ca != cb:
