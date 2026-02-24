@@ -96,7 +96,12 @@ def descifrado_playfair(mensaje, clave):
     pares = cifrado_playfair_paso2(mensaje)
 
     # Paso 3: Descifrar
-    return playfair_forma_general(pares, matriz, "descifrar").replace("X", "")
+    palabra_descifrada = list(playfair_forma_general(pares, matriz, "descifrar"))
+    for i in range(len(palabra_descifrada)):
+        if palabra_descifrada[i] == "X" and i % 2 == 1:
+            palabra_descifrada[i] = palabra_descifrada[i - 1]
+
+    return "".join(palabra_descifrada)
 
 
 clave = "silla"
