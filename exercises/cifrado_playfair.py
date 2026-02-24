@@ -31,10 +31,9 @@ def cifrado_playfair_paso2(mensaje):
 
         if a == b:
             pares.append((a, "X"))
-            i += 1
         else:
             pares.append((a, b))
-            i += 2
+        i += 2
 
     return pares
 
