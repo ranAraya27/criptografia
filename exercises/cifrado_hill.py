@@ -1,6 +1,5 @@
 import numpy as np
 from sympy import Matrix  # pip install sympy
-import numpy as np
 
 
 def _crear_matriz_clave(clave):
