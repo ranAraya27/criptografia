@@ -1,14 +1,5 @@
 import numpy as np
 
-# Definir matrices
-A = np.array([[1, 2], [3, 4]])
-B = np.array([[5, 6], [7, 8]])
-
-
-# Calcular la inversa
-A_inv = np.linalg.inv(A)
-
-
 val_let = {
     "A": 0,
     "B": 1,
@@ -38,10 +29,6 @@ val_let = {
     "Z": 25,
 }
 
-# Ejemplo de uso:
-# print(valores_letras['Z']) # Salida: 25
-
-
 def cifrado_hill(mensaje="act", clave="gybnqkurp"):
     C = np.zeros((3, 3))
     M = np.zeros((3, 1))
@@ -64,7 +51,7 @@ def cifrado_hill(mensaje="act", clave="gybnqkurp"):
     return A
 
 
-def cifrado_hill(matriz, clave="gybnqkurp"):
+def cifrado_hill(vector, clave="gybnqkurp"):
     C = np.zeros((3, 3))
     M = np.zeros((3, 1))
     clave = clave.upper()
@@ -77,7 +64,7 @@ def cifrado_hill(matriz, clave="gybnqkurp"):
 
     C_inv = np.linalg.inv(C)
 
-    A = C @ M
+    A = 
     for i in range(3):
         A[i] = A[i] % 26
     return A
