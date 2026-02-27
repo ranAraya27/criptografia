@@ -1,4 +1,13 @@
 import numpy as np
+from sympy import Matrix  # pip install sympy
+import numpy as np
+
+
+def inversa_modular(matriz, mod=26):
+    M = Matrix(matriz)
+    M_inv = M.inv_mod(mod)
+    return np.array(M_inv).astype(int)
+
 
 val_let = {
     "A": 0,
@@ -29,6 +38,7 @@ val_let = {
     "Z": 25,
 }
 
+
 def cifrado_hill(mensaje="act", clave="gybnqkurp"):
     C = np.zeros((3, 3))
     M = np.zeros((3, 1))
@@ -51,20 +61,29 @@ def cifrado_hill(mensaje="act", clave="gybnqkurp"):
     return A
 
 
-def cifrado_hill(vector, clave="gybnqkurp"):
-    C = np.zeros((3, 3))
-    M = np.zeros((3, 1))
+def descifrado_hill(vector_cifrado, clave="gybnqkurp"):
     clave = clave.upper()
-    mensaje = mensaje.upper()
+    matriz_clave = np.zeros((3, 3))
     count = 0
     for i in range(3):
         for j in range(3):
-            C[i][j] = val_let[clave[count]]
+            matriz_clave[i][j] = val_let[clave[count]]
             count = count + 1
+    print(matriz_clave)
 
-    C_inv = np.linalg.inv(C)
+    matriz_clave_inv = inversa_modular(matriz_clave, 26)
 
-    A = 
-    for i in range(3):
-        A[i] = A[i] % 26
-    return A
+    vector_descifrado = matriz_clave_inv @ vector_cifrado
+
+    palabra_descifrada = ""
+    vec = np.rint(np.asarray(vector_descifrado)).astype(int).flatten()
+    print(matriz_clave_inv, "\n")
+    print(vector_cifrado)
+    for x in vec:
+        palabra_descifrada += chr((x % 26) + ord("A"))
+    return palabra_descifrada
+
+
+vector_cifrado = cifrado_hill()
+print(vector_cifrado, "\n\n")
+print(descifrado_hill(vector_cifrado))
