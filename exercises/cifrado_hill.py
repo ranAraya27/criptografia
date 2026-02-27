@@ -9,36 +9,6 @@ def inversa_modular(matriz, mod=26):
     return np.array(M_inv).astype(int)
 
 
-val_let = {
-    "A": 0,
-    "B": 1,
-    "C": 2,
-    "D": 3,
-    "E": 4,
-    "F": 5,
-    "G": 6,
-    "H": 7,
-    "I": 8,
-    "J": 9,
-    "K": 10,
-    "L": 11,
-    "M": 12,
-    "N": 13,
-    "O": 14,
-    "P": 15,
-    "Q": 16,
-    "R": 17,
-    "S": 18,
-    "T": 19,
-    "U": 20,
-    "V": 21,
-    "W": 22,
-    "X": 23,
-    "Y": 24,
-    "Z": 25,
-}
-
-
 def cifrado_hill(mensaje="act", clave="gybnqkurp"):
     C = np.zeros((3, 3))
     M = np.zeros((3, 1))
@@ -47,12 +17,12 @@ def cifrado_hill(mensaje="act", clave="gybnqkurp"):
     count = 0
     for i in range(3):
         for j in range(3):
-            C[i][j] = val_let[clave[count]]
+            C[i][j] = ord(clave[count]) - ord("A")
             count = count + 1
 
     count = 0
     for i in range(3):
-        M[i] = val_let[mensaje[count]]
+        M[i] = ord(mensaje[count]) - ord("A")
         count = count + 1
 
     A = C @ M
@@ -67,7 +37,7 @@ def descifrado_hill(vector_cifrado, clave="gybnqkurp"):
     count = 0
     for i in range(3):
         for j in range(3):
-            matriz_clave[i][j] = val_let[clave[count]]
+            matriz_clave[i][j] = ord(clave[count]) - ord("A")
             count = count + 1
     print(matriz_clave)
 
