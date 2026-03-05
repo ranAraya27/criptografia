@@ -14,7 +14,6 @@ def cifrado_vernam(mensaje, clave):
 
 def descifrado_vernam(cifrado, clave):
     c = clave.encode("utf-8")
-
     resultado = []
     for i in range(len(cifrado)):
         xor = cifrado[i] ^ c[i]
@@ -23,11 +22,10 @@ def descifrado_vernam(cifrado, clave):
 
 
 def generar_clave(mensaje):
-    m = mensaje.encode("utf-8")
     resultado = []
-    for i in range(len(m)):
-        resultado.append(random.randint(0, 1))
-    return bytes(resultado).decode("utf-8")
+    for i in range(len(mensaje)):
+        resultado.append(random.randint(65, 90))
+    return "".join([chr(c) for c in resultado])
 
 
 mensaje = "HOLA"
