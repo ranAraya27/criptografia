@@ -1,2 +1,2 @@
 # criptografia
-Repositorio de ejercicios del curso de Criptografía
+Repositorio de ejercicios del curso de Criptografía.
