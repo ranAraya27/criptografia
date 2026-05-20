@@ -1,5 +1,6 @@
 import customtkinter as ctk
 
+from src.ui.manager_login import ManagerLoginWindow
 from src.ui.student_auth import StudentAuthWindow
 
 
@@ -81,7 +82,8 @@ class MainWindow(ctk.CTk):
         student_button.grid(row=0, column=1, padx=8)
 
     def open_manager_login(self):
-        print("Abrir ventana de login del gestor")
+        self.withdraw()
+        ManagerLoginWindow(self)
 
     def open_student_options(self):
         self.withdraw()
