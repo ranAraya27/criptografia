@@ -1,5 +1,7 @@
 import customtkinter as ctk
 
+from src.ui.student_auth import StudentAuthWindow
+
 
 class MainWindow(ctk.CTk):
     def __init__(self):
@@ -82,7 +84,8 @@ class MainWindow(ctk.CTk):
         print("Abrir ventana de login del gestor")
 
     def open_student_options(self):
-        print("Abrir ventana de opciones del estudiante")
+        self.withdraw()
+        StudentAuthWindow(self)
 
 
 if __name__ == "__main__":
