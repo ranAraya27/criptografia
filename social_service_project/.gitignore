@@ -14,3 +14,7 @@ venv/
 
 # Ignore CSV files
 *.csv
+
+# Ignore sensitive files
+*.key
+*.pem
