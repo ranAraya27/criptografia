@@ -2,6 +2,8 @@ import customtkinter as ctk
 from tkinter import messagebox
 
 from src.backend.project_service import create_project, get_all_projects
+from src.backend.student_service import get_all_students
+from src.backend.enrollment_service import get_enrollments_by_project
 
 
 class ManagerDashboard(ctk.CTkToplevel):
@@ -14,7 +16,6 @@ class ManagerDashboard(ctk.CTkToplevel):
         self.configure(fg_color="#071323")
 
         self.create_widgets()
-        self.load_projects()
 
     def create_widgets(self):
         title = ctk.CTkLabel(
@@ -25,8 +26,27 @@ class ManagerDashboard(ctk.CTkToplevel):
         )
         title.pack(pady=(25, 15))
 
-        form_frame = ctk.CTkFrame(self, fg_color="#1f2937", corner_radius=15)
-        form_frame.pack(pady=10, padx=40, fill="x")
+        self.tabview = ctk.CTkTabview(
+            self,
+            width=920,
+            height=520,
+            fg_color="#1f2937",
+            segmented_button_selected_color="#b08d18",
+            segmented_button_selected_hover_color="#967812",
+        )
+        self.tabview.pack()
+
+        self.projects_tab = self.tabview.add("Proyectos")
+        self.students_tab = self.tabview.add("Estudiantes")
+
+        self.create_projects_tab()
+        self.create_students_tab()
+
+    def create_projects_tab(self):
+        form_frame = ctk.CTkFrame(
+            self.projects_tab, fg_color="#111827", corner_radius=15
+        )
+        form_frame.pack(pady=15, padx=20, fill="x")
 
         form_frame.grid_columnconfigure(0, weight=3)
         form_frame.grid_columnconfigure(1, weight=1)
@@ -54,9 +74,27 @@ class ManagerDashboard(ctk.CTkToplevel):
         create_button.grid(row=0, column=2, padx=15, pady=20, sticky="ew")
 
         self.projects_frame = ctk.CTkScrollableFrame(
-            self, width=780, height=400, fg_color="#1f2937", corner_radius=15
+            self.projects_tab,
+            width=850,
+            height=350,
+            fg_color="#111827",
+            corner_radius=15,
         )
-        self.projects_frame.pack(pady=20)
+        self.projects_frame.pack(pady=10)
+
+        self.load_projects()
+
+    def create_students_tab(self):
+        self.students_frame = ctk.CTkScrollableFrame(
+            self.students_tab,
+            width=850,
+            height=430,
+            fg_color="#111827",
+            corner_radius=15,
+        )
+        self.students_frame.pack(pady=25)
+
+        self.load_students()
 
     def handle_create_project(self):
         name = self.project_name_entry.get().strip()
@@ -94,35 +132,97 @@ class ManagerDashboard(ctk.CTkToplevel):
         projects = get_all_projects()
 
         if not projects:
-            empty_label = ctk.CTkLabel(
+            label = ctk.CTkLabel(
                 self.projects_frame,
                 text="No hay proyectos registrados.",
                 font=("Arial", 16),
                 text_color="white",
             )
-            empty_label.pack(pady=20)
+            label.pack(pady=20)
             return
 
         for project in projects:
             card = ctk.CTkFrame(
-                self.projects_frame, fg_color="#111827", corner_radius=12
+                self.projects_frame, fg_color="#1f2937", corner_radius=12
             )
             card.pack(fill="x", padx=15, pady=10)
 
-            name_label = ctk.CTkLabel(
+            project_title = ctk.CTkLabel(
                 card,
                 text=project["name"],
                 font=("Arial", 20, "bold"),
                 text_color="white",
                 anchor="w",
             )
-            name_label.pack(padx=20, pady=(12, 3), anchor="w")
+            project_title.pack(padx=20, pady=(12, 3), anchor="w")
 
-            capacity_label = ctk.CTkLabel(
+            info = ctk.CTkLabel(
                 card,
                 text=f"Cupo total: {project['capacity']} | Cupos disponibles: {project['available_slots']}",
                 font=("Arial", 15),
                 text_color="white",
-                anchor="w",
             )
-            capacity_label.pack(padx=20, pady=(0, 12), anchor="w")
+            info.pack(padx=20, pady=(0, 8), anchor="w")
+
+            enrolled_students = get_enrollments_by_project(project["project_id"])
+
+            if not enrolled_students:
+                enrolled_label = ctk.CTkLabel(
+                    card,
+                    text="Estudiantes inscritos: ninguno",
+                    font=("Arial", 14),
+                    text_color="#d1d5db",
+                )
+                enrolled_label.pack(padx=20, pady=(0, 12), anchor="w")
+            else:
+                title = ctk.CTkLabel(
+                    card,
+                    text="Estudiantes inscritos:",
+                    font=("Arial", 14, "bold"),
+                    text_color="#d1d5db",
+                )
+                title.pack(padx=20, pady=(0, 5), anchor="w")
+
+                for enrollment in enrolled_students:
+                    student_label = ctk.CTkLabel(
+                        card,
+                        text=f"- {enrollment['student_name']} | {enrollment['student_email']}",
+                        font=("Arial", 14),
+                        text_color="#d1d5db",
+                    )
+                    student_label.pack(padx=35, pady=(0, 4), anchor="w")
+
+    def load_students(self):
+        for widget in self.students_frame.winfo_children():
+            widget.destroy()
+
+        students = get_all_students()
+
+        if not students:
+            label = ctk.CTkLabel(
+                self.students_frame,
+                text="No hay estudiantes registrados.",
+                font=("Arial", 16),
+                text_color="white",
+            )
+            label.pack(pady=20)
+            return
+
+        for student in students:
+            card = ctk.CTkFrame(
+                self.students_frame, fg_color="#1f2937", corner_radius=12
+            )
+            card.pack(fill="x", padx=15, pady=10)
+
+            name_label = ctk.CTkLabel(
+                card,
+                text=student["name"],
+                font=("Arial", 18, "bold"),
+                text_color="white",
+            )
+            name_label.pack(padx=20, pady=(12, 3), anchor="w")
+
+            email_label = ctk.CTkLabel(
+                card, text=student["email"], font=("Arial", 14), text_color="#d1d5db"
+            )
+            email_label.pack(padx=20, pady=(0, 12), anchor="w")
