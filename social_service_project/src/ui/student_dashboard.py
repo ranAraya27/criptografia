@@ -11,7 +11,7 @@ class StudentDashboard(ctk.CTkToplevel):
 
         self.student = student
 
-        self.title("Panel del Participante")
+        self.title("Panel del Estudiante")
         self.geometry("900x600")
         self.resizable(False, False)
         self.configure(fg_color="#071323")
