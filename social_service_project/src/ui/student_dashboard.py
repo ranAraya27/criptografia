@@ -1,6 +1,8 @@
 import customtkinter as ctk
+from tkinter import messagebox
 
 from src.backend.project_service import get_all_projects
+from src.backend.enrollment_service import enroll_student, student_is_enrolled
 
 
 class StudentDashboard(ctk.CTkToplevel):
@@ -9,7 +11,7 @@ class StudentDashboard(ctk.CTkToplevel):
 
         self.student = student
 
-        self.title("Panel del Estudiante")
+        self.title("Panel del Participante")
         self.geometry("900x600")
         self.resizable(False, False)
         self.configure(fg_color="#071323")
@@ -52,6 +54,8 @@ class StudentDashboard(ctk.CTkToplevel):
             empty_label.pack(pady=20)
             return
 
+        already_enrolled = student_is_enrolled(self.student["student_id"])
+
         for project in projects:
             card = ctk.CTkFrame(
                 self.projects_frame, fg_color="#111827", corner_radius=12
@@ -74,4 +78,29 @@ class StudentDashboard(ctk.CTkToplevel):
                 text_color="white",
                 anchor="w",
             )
-            slots_label.pack(padx=20, pady=(0, 12), anchor="w")
+            slots_label.pack(padx=20, pady=(0, 8), anchor="w")
+
+            button = ctk.CTkButton(
+                card,
+                text="Inscribirse",
+                width=180,
+                height=38,
+                fg_color="#b08d18",
+                hover_color="#967812",
+                font=("Arial", 15, "bold"),
+                command=lambda p_id=project["project_id"]: self.handle_enrollment(p_id),
+            )
+            button.pack(padx=20, pady=(0, 15), anchor="e")
+
+            if already_enrolled or int(project["available_slots"]) <= 0:
+                button.configure(state="disabled")
+
+    def handle_enrollment(self, project_id):
+        success, message = enroll_student(self.student, project_id)
+
+        if success:
+            messagebox.showinfo("Inscripción exitosa", message)
+        else:
+            messagebox.showwarning("No se pudo inscribir", message)
+
+        self.load_projects()
