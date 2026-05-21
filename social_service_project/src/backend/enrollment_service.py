@@ -4,6 +4,8 @@ import uuid
 
 from src.backend.project_service import get_all_projects, PROJECTS_FILE
 from src.crypto.signature_utils import create_signature, verify_signature
+from src.crypto.hmac_utils import create_hmac, verify_hmac
+from src.backend.student_service import get_student_by_id
 
 ENROLLMENTS_FILE = "data/enrollments.csv"
 HEADERS = [
@@ -15,7 +17,7 @@ HEADERS = [
     "project_name",
     "message",
     "signature",
-    "is_valid",
+    "record_hmac",
 ]
 
 
@@ -81,6 +83,8 @@ def enroll_student(student: dict, project_id: str):
     enrollment_id = str(uuid.uuid4())
     message_to_sign = f"{student['student_id']}|{selected_project['project_id']}|{selected_project['name']}"
     signature = create_signature(student["student_id"], message_to_sign)
+    record_message = f"{enrollment_id}|{student['student_id']}|{student['email']}|{selected_project['project_id']}|{selected_project['name']}|{signature}"
+    record_hmac = create_hmac(record_message)
 
     is_valid = verify_signature(student["public_key"], message_to_sign, signature)
 
@@ -96,7 +100,7 @@ def enroll_student(student: dict, project_id: str):
                 selected_project["name"],
                 message_to_sign,
                 signature,
-                is_valid,
+                record_hmac,
             ]
         )
 
@@ -109,3 +113,30 @@ def enroll_student(student: dict, project_id: str):
         writer.writerows(projects)
 
     return True, "Inscripción realizada correctamente."
+
+
+def verify_enrollment_hmac(enrollment: dict) -> bool:
+    record_message = (
+        f"{enrollment['enrollment_id']}|"
+        f"{enrollment['student_id']}|"
+        f"{enrollment['student_email']}|"
+        f"{enrollment['project_id']}|"
+        f"{enrollment['project_name']}|"
+        f"{enrollment['signature']}"
+    )
+
+    return verify_hmac(record_message, enrollment["record_hmac"])
+
+
+def verify_enrollment_signature(enrollment: dict) -> bool:
+    student = get_student_by_id(enrollment["student_id"])
+
+    if student is None:
+        return False
+
+    public_key = student.get("public_key")
+
+    if not public_key:
+        return False
+
+    return verify_signature(public_key, enrollment["message"], enrollment["signature"])
