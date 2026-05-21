@@ -184,9 +184,14 @@ class ManagerDashboard(ctk.CTkToplevel):
                 title.pack(padx=20, pady=(0, 5), anchor="w")
 
                 for enrollment in enrolled_students:
+                    verification_text = (
+                        "Firma válida"
+                        if enrollment["is_valid"] == "True"
+                        else "Firma inválida"
+                    )
                     student_label = ctk.CTkLabel(
                         card,
-                        text=f"- {enrollment['student_name']} | {enrollment['student_email']}",
+                        text=f"- {enrollment['student_name']} | {enrollment['student_email']} | {verification_text}",
                         font=("Arial", 14),
                         text_color="#d1d5db",
                     )
