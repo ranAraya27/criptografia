@@ -3,7 +3,11 @@ from tkinter import messagebox
 
 from src.backend.project_service import create_project, get_all_projects
 from src.backend.student_service import get_all_students
-from src.backend.enrollment_service import get_enrollments_by_project
+from src.backend.enrollment_service import (
+    get_enrollments_by_project,
+    verify_enrollment_hmac,
+    verify_enrollment_signature,
+)
 
 
 class ManagerDashboard(ctk.CTkToplevel):
@@ -184,14 +188,19 @@ class ManagerDashboard(ctk.CTkToplevel):
                 title.pack(padx=20, pady=(0, 5), anchor="w")
 
                 for enrollment in enrolled_students:
-                    verification_text = (
-                        "Firma válida"
-                        if enrollment["is_valid"] == "True"
-                        else "Firma inválida"
+                    hmac_valid = verify_enrollment_hmac(enrollment)
+                    signature_valid = verify_enrollment_signature(enrollment)
+
+                    hmac_text = (
+                        "Registro íntegro" if hmac_valid else "Registro alterado"
                     )
+                    signature_text = (
+                        "Firma válida" if signature_valid else "Firma inválida"
+                    )
+
                     student_label = ctk.CTkLabel(
                         card,
-                        text=f"- {enrollment['student_name']} | {enrollment['student_email']} | {verification_text}",
+                        text=f"- {enrollment['student_name']} | {enrollment['student_email']} | {signature_text} | {hmac_text}",
                         font=("Arial", 14),
                         text_color="#d1d5db",
                     )
