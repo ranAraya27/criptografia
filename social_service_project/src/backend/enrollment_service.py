@@ -3,6 +3,7 @@ import os
 import uuid
 
 from src.backend.project_service import get_all_projects, PROJECTS_FILE
+from src.crypto.signature_utils import create_signature, verify_signature
 
 ENROLLMENTS_FILE = "data/enrollments.csv"
 HEADERS = [
@@ -12,6 +13,9 @@ HEADERS = [
     "student_email",
     "project_id",
     "project_name",
+    "message",
+    "signature",
+    "is_valid",
 ]
 
 
@@ -75,6 +79,10 @@ def enroll_student(student: dict, project_id: str):
         return False, "Este proyecto ya está lleno."
 
     enrollment_id = str(uuid.uuid4())
+    message_to_sign = f"{student['student_id']}|{selected_project['project_id']}|{selected_project['name']}"
+    signature = create_signature(student["student_id"], message_to_sign)
+
+    is_valid = verify_signature(student["public_key"], message_to_sign, signature)
 
     with open(ENROLLMENTS_FILE, "a", newline="", encoding="utf-8") as file:
         writer = csv.writer(file)
@@ -86,6 +94,9 @@ def enroll_student(student: dict, project_id: str):
                 student["email"],
                 selected_project["project_id"],
                 selected_project["name"],
+                message_to_sign,
+                signature,
+                is_valid,
             ]
         )
 
