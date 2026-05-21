@@ -17,7 +17,7 @@ class ManagerLoginWindow(ctk.CTkToplevel):
 
     def create_widgets(self):
         title = ctk.CTkLabel(
-            self, text="Gestor SGMEE", font=("Arial", 32, "bold"), text_color="white"
+            self, text="Gestor SISSO", font=("Arial", 32, "bold"), text_color="white"
         )
         title.pack(pady=(40, 5))
 
