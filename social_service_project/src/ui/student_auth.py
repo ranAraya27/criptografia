@@ -2,6 +2,7 @@ import customtkinter as ctk
 from tkinter import messagebox
 
 from src.backend.auth_service import register_student, login_student
+from src.ui.student_dashboard import StudentDashboard
 
 
 class StudentAuthWindow(ctk.CTkToplevel):
@@ -122,7 +123,7 @@ class StudentAuthWindow(ctk.CTkToplevel):
 
         if student:
             messagebox.showinfo("Login exitoso", f"Bienvenido/a, {student['name']}")
-            print("Estudiante logueado:", student)
+            StudentDashboard(self.master, student)
             self.destroy()
         else:
             messagebox.showerror("Error", "Correo o contraseña incorrectos.")
