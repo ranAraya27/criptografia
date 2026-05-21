@@ -18,7 +18,7 @@ class StudentAuthWindow(ctk.CTkToplevel):
     def create_widgets(self):
         title = ctk.CTkLabel(
             self,
-            text="Participante SGMEE",
+            text="Estudiante SISSO",
             font=("Arial", 30, "bold"),
             text_color="white",
         )

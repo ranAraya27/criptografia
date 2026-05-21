@@ -70,7 +70,7 @@ class MainWindow(ctk.CTk):
 
         student_button = ctk.CTkButton(
             buttons_frame,
-            text="Soy participante",
+            text="Soy estudiante",
             width=230,
             height=55,
             corner_radius=10,
