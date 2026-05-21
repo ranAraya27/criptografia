@@ -19,3 +19,16 @@ def get_all_students():
             )
 
         return students
+
+
+def get_student_by_id(student_id: str):
+    initialize_students_file()
+
+    with open(STUDENTS_FILE, "r", encoding="utf-8") as file:
+        reader = csv.DictReader(file)
+
+        for row in reader:
+            if row["student_id"] == student_id:
+                return row
+
+    return None
