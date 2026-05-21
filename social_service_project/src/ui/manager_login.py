@@ -1,6 +1,8 @@
 import customtkinter as ctk
 from tkinter import messagebox
 
+from src.ui.manager_dashboard import ManagerDashboard
+
 
 class ManagerLoginWindow(ctk.CTkToplevel):
     def __init__(self, master=None):
@@ -83,7 +85,7 @@ class ManagerLoginWindow(ctk.CTkToplevel):
 
         if username == "admin" and password == "admin":
             messagebox.showinfo("Login exitoso", "Bienvenido, gestor.")
-            print("Gestor logueado correctamente")
+            ManagerDashboard(self.master)
             self.destroy()
         else:
             messagebox.showerror("Error", "Usuario o contraseña incorrectos.")
