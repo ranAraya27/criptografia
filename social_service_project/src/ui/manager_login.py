@@ -9,7 +9,7 @@ class ManagerLoginWindow(ctk.CTkToplevel):
         super().__init__(master)
 
         self.title("Gestor - Login")
-        self.geometry("600x430")
+        self.geometry("1000x650")
         self.resizable(False, False)
         self.configure(fg_color="#071323")
 

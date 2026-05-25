@@ -9,7 +9,7 @@ class MainWindow(ctk.CTk):
         super().__init__()
 
         self.title("SISSO - Sistema de Servicio Social")
-        self.geometry("800x600")
+        self.geometry("1000x650")
         self.resizable(False, False)
 
         ctk.set_appearance_mode("dark")

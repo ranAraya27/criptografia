@@ -10,7 +10,7 @@ class StudentAuthWindow(ctk.CTkToplevel):
         super().__init__(master)
 
         self.title("Estudiante - Login / Registro")
-        self.geometry("600x500")
+        self.geometry("1000x650")
         self.resizable(False, False)
         self.configure(fg_color="#071323")
 
