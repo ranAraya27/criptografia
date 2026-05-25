@@ -17,7 +17,16 @@ class MainWindow(ctk.CTk):
 
         self.configure(fg_color="#071323")
 
+        # close correctly
+        self.protocol("WM_DELETE_WINDOW", self.on_closing)
+
         self.create_widgets()
+
+    # function to close correctly oullia
+    def on_closing(self):
+        """Cierra correctamente la aplicación"""
+        self.quit()
+        self.destroy()
 
     def create_widgets(self):
         title = ctk.CTkLabel(

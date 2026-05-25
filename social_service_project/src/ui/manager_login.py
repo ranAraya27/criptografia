@@ -13,8 +13,23 @@ class ManagerLoginWindow(ctk.CTkToplevel):
         self.resizable(False, False)
         self.configure(fg_color="#071323")
 
+        # close correctly:
+        self.protocol("WM_DELETE_WINDOW", self.on_closing)
         self.create_widgets()
 
+    #function to close correctly:
+
+    def on_closing(self):
+        """Cierra correctamente la aplicación"""
+        self.quit()
+        self.destroy()
+        # Para Regresar a la ventana principaL:
+    # def on_closing(self):
+    #     """Cierra la ventana y vuelve a la principal"""
+    #     if self.master:
+    #         self.master.deiconify()
+    #     self.destroy()
+        
     def create_widgets(self):
         title = ctk.CTkLabel(
             self, text="Gestor SISSO", font=("Arial", 32, "bold"), text_color="white"

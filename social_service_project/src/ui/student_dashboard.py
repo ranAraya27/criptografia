@@ -16,9 +16,24 @@ class StudentDashboard(ctk.CTkToplevel):
         self.resizable(False, False)
         self.configure(fg_color="#071323")
 
+        # close correctly:
+        self.protocol("WM_DELETE_WINDOW", self.on_closing)
         self.create_widgets()
         self.load_projects()
 
+    # function to close correctly :
+    def on_closing(self):
+        """Cierra correctamente la aplicación"""
+        self.quit()
+        self.destroy()
+
+    # O para solo ir al menu principal:
+    # def on_closing(self):
+    #     """Cierra la ventana y vuelve a la principal"""
+    #     if self.master:
+    #         self.master.deiconify()
+    #     self.destroy()
+    
     def create_widgets(self):
         title = ctk.CTkLabel(
             self,
