@@ -81,12 +81,25 @@ def enroll_student(student: dict, project_id: str):
         return False, "Este proyecto ya está lleno."
 
     enrollment_id = str(uuid.uuid4())
-    message_to_sign = f"{student['student_id']}|{selected_project['project_id']}|{selected_project['name']}"
-    signature = create_signature(student["student_id"], message_to_sign)
-    record_message = f"{enrollment_id}|{student['student_id']}|{student['email']}|{selected_project['project_id']}|{selected_project['name']}|{signature}"
-    record_hmac = create_hmac(record_message)
 
-    is_valid = verify_signature(student["public_key"], message_to_sign, signature)
+    message_to_sign = (
+        f"{student['student_id']}|"
+        f"{selected_project['project_id']}|"
+        f"{selected_project['name']}"
+    )
+
+    signature = create_signature(student["student_id"], message_to_sign)
+
+    record_message = (
+        f"{enrollment_id}|"
+        f"{student['student_id']}|"
+        f"{student['email']}|"
+        f"{selected_project['project_id']}|"
+        f"{selected_project['name']}|"
+        f"{signature}"
+    )
+
+    record_hmac = create_hmac(record_message)
 
     with open(ENROLLMENTS_FILE, "a", newline="", encoding="utf-8") as file:
         writer = csv.writer(file)
