@@ -30,7 +30,7 @@ class ManagerLoginWindow(ctk.CTkToplevel):
         subtitle.pack(pady=(0, 30))
 
         form_frame = ctk.CTkFrame(
-            self, width=500, height=260, corner_radius=15, fg_color="#1f2937"
+            self, width=500, height=300, corner_radius=15, fg_color="#1f2937"
         )
         form_frame.pack()
         form_frame.pack_propagate(False)

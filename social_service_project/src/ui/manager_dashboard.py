@@ -15,7 +15,7 @@ class ManagerDashboard(ctk.CTkToplevel):
         super().__init__(master)
 
         self.title("Panel del Gestor")
-        self.geometry("1000x650")
+        self.geometry("1000x700")
         self.resizable(False, False)
         self.configure(fg_color="#071323")
 
@@ -45,6 +45,18 @@ class ManagerDashboard(ctk.CTkToplevel):
 
         self.create_projects_tab()
         self.create_students_tab()
+
+        back_button = ctk.CTkButton(
+            self,
+            text="Log Out",
+            width=80,
+            height=35,
+            fg_color="#e74c3c",
+            hover_color="#c0392b",
+            font=("Arial", 12, "bold"),
+            command=self.go_back
+        )
+        back_button.pack(anchor="nw", padx=15, pady=10)
 
     def create_projects_tab(self):
         form_frame = ctk.CTkFrame(
@@ -87,18 +99,6 @@ class ManagerDashboard(ctk.CTkToplevel):
         self.projects_frame.pack(pady=10)
 
         self.load_projects()
-
-        back_button = ctk.CTkButton(
-            self,
-            text="← Atrás",
-            width=80,
-            height=35,
-            fg_color="#666666",
-            hover_color="#555555",
-            font=("Arial", 12),
-            command=self.go_back
-        )
-        back_button.pack(anchor="nw", padx=15, pady=10)
 
     def create_students_tab(self):
         self.students_frame = ctk.CTkScrollableFrame(

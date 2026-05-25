@@ -40,12 +40,12 @@ class StudentDashboard(ctk.CTkToplevel):
 
         back_button = ctk.CTkButton(
             self,
-            text="← Atrás",
+            text="Log Out",
             width=80,
             height=35,
-            fg_color="#666666",
-            hover_color="#555555",
-            font=("Arial", 12),
+            fg_color="#e74c3c",
+            hover_color="#c0392b",
+            font=("Arial", 12, "bold"),
             command=self.go_back
         )
         back_button.pack(anchor="nw", padx=15, pady=10)
