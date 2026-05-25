@@ -38,6 +38,18 @@ class StudentDashboard(ctk.CTkToplevel):
         )
         self.projects_frame.pack(pady=10)
 
+        back_button = ctk.CTkButton(
+            self,
+            text="← Atrás",
+            width=80,
+            height=35,
+            fg_color="#666666",
+            hover_color="#555555",
+            font=("Arial", 12),
+            command=self.go_back
+        )
+        back_button.pack(anchor="nw", padx=15, pady=10)
+
     def load_projects(self):
         for widget in self.projects_frame.winfo_children():
             widget.destroy()
@@ -104,3 +116,13 @@ class StudentDashboard(ctk.CTkToplevel):
             messagebox.showwarning("No se pudo inscribir", message)
 
         self.load_projects()
+
+    def go_back(self):
+        if self.master:
+            self.master.deiconify()  # Mostrar ventana padre
+        self.destroy()
+    
+    # En MainWindow, override para cerrar todo:
+    def close_app(self):
+        self.quit()
+        self.destroy()

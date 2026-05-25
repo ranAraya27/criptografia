@@ -89,6 +89,15 @@ class MainWindow(ctk.CTk):
         self.withdraw()
         StudentAuthWindow(self)
 
+    def go_back(self):
+        if self.master:
+            self.master.deiconify()  # Mostrar ventana padre
+        self.destroy()
+    
+    # En MainWindow, override para cerrar todo:
+    def close_app(self):
+        self.quit()
+        self.destroy()
 
 if __name__ == "__main__":
     app = MainWindow()

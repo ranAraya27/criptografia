@@ -79,6 +79,18 @@ class ManagerLoginWindow(ctk.CTkToplevel):
         )
         login_button.pack()
 
+        back_button = ctk.CTkButton(
+            self,
+            text="← Atrás",
+            width=80,
+            height=35,
+            fg_color="#666666",
+            hover_color="#555555",
+            font=("Arial", 12),
+            command=self.go_back
+        )
+        back_button.pack(anchor="nw", padx=15, pady=10)
+
     def handle_login(self):
         username = self.username_entry.get().strip()
         password = self.password_entry.get().strip()
@@ -89,3 +101,13 @@ class ManagerLoginWindow(ctk.CTkToplevel):
             self.destroy()
         else:
             messagebox.showerror("Error", "Usuario o contraseña incorrectos.")
+
+    def go_back(self):
+        if self.master:
+            self.master.deiconify()  # Mostrar ventana padre
+        self.destroy()
+    
+    # En MainWindow, override para cerrar todo:
+    def close_app(self):
+        self.quit()
+        self.destroy()

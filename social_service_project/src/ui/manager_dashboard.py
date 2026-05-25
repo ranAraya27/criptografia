@@ -88,6 +88,18 @@ class ManagerDashboard(ctk.CTkToplevel):
 
         self.load_projects()
 
+        back_button = ctk.CTkButton(
+            self,
+            text="← Atrás",
+            width=80,
+            height=35,
+            fg_color="#666666",
+            hover_color="#555555",
+            font=("Arial", 12),
+            command=self.go_back
+        )
+        back_button.pack(anchor="nw", padx=15, pady=10)
+
     def create_students_tab(self):
         self.students_frame = ctk.CTkScrollableFrame(
             self.students_tab,
@@ -240,3 +252,13 @@ class ManagerDashboard(ctk.CTkToplevel):
                 card, text=student["email"], font=("Arial", 14), text_color="#d1d5db"
             )
             email_label.pack(padx=20, pady=(0, 12), anchor="w")
+
+    def go_back(self):
+        if self.master:
+            self.master.deiconify()  # Mostrar ventana padre
+        self.destroy()
+    
+    # En MainWindow, override para cerrar todo:
+    def close_app(self):
+        self.quit()
+        self.destroy()

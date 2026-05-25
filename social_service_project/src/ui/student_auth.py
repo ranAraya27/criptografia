@@ -50,6 +50,18 @@ class StudentAuthWindow(ctk.CTkToplevel):
         self.create_login_tab()
         self.create_signup_tab()
 
+        back_button = ctk.CTkButton(
+            self,
+            text="← Atrás",
+            width=80,
+            height=35,
+            fg_color="#666666",
+            hover_color="#555555",
+            font=("Arial", 12),
+            command=self.go_back
+        )
+        back_button.pack(anchor="nw", padx=15, pady=10)
+
     def create_login_tab(self):
         self.login_email_entry = ctk.CTkEntry(
             self.login_tab, width=380, height=45, placeholder_text="Correo electrónico"
@@ -109,6 +121,18 @@ class StudentAuthWindow(ctk.CTkToplevel):
         )
         signup_button.pack(pady=15)
 
+        back_button = ctk.CTkButton(
+            self,
+            text="← Atrás",
+            width=80,
+            height=35,
+            fg_color="#666666",
+            hover_color="#555555",
+            font=("Arial", 12),
+            command=self.go_back
+        )
+        back_button.pack(anchor="nw", padx=15, pady=10)
+
     def handle_login(self):
         email = self.login_email_entry.get().strip()
         password = self.login_password_entry.get().strip()
@@ -154,3 +178,13 @@ class StudentAuthWindow(ctk.CTkToplevel):
             self.tabview.set("Login")
         else:
             messagebox.showerror("Error", "Ese correo ya está registrado.")
+
+    def go_back(self):
+        if self.master:
+            self.master.deiconify()  # Mostrar ventana padre
+        self.destroy()
+    
+    # En MainWindow, override para cerrar todo:
+    def close_app(self):
+        self.quit()
+        self.destroy()
