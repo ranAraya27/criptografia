@@ -89,8 +89,9 @@ class ManagerLoginWindow(ctk.CTkToplevel):
             font=("Arial", 12),
             command=self.go_back
         )
-        back_button.pack(anchor="nw", padx=15, pady=10)
-
+        # back_button.pack(anchor="nw", padx=15, pady=10)
+        back_button.place(x=250, y=450)
+        
     def handle_login(self):
         username = self.username_entry.get().strip()
         password = self.password_entry.get().strip()

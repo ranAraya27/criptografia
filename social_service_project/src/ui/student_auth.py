@@ -60,7 +60,8 @@ class StudentAuthWindow(ctk.CTkToplevel):
             font=("Arial", 12),
             command=self.go_back
         )
-        back_button.pack(anchor="nw", padx=15, pady=10)
+        #back_button.pack(anchor="nw", padx=15, pady=10)
+        back_button.place(x=250, y=500)
 
     def create_login_tab(self):
         self.login_email_entry = ctk.CTkEntry(
