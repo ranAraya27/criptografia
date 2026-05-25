@@ -67,6 +67,7 @@ class ManagerLoginWindow(ctk.CTkToplevel):
         )
         self.password_entry.pack(pady=(0, 20))
 
+        self.password_entry.bind("<Return>", self.handle_login)
         login_button = ctk.CTkButton(
             form_frame,
             text="Iniciar",
@@ -92,10 +93,10 @@ class ManagerLoginWindow(ctk.CTkToplevel):
         # back_button.pack(anchor="nw", padx=15, pady=10)
         back_button.place(x=250, y=450)
         
-    def handle_login(self):
+    def handle_login(self,event=None):
         username = self.username_entry.get().strip()
         password = self.password_entry.get().strip()
-
+        
         if username == "admin" and password == "admin":
             messagebox.showinfo("Login exitoso", "Bienvenido, gestor.")
             ManagerDashboard(self.master)

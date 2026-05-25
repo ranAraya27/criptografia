@@ -78,6 +78,11 @@ class StudentAuthWindow(ctk.CTkToplevel):
         )
         self.login_password_entry.pack(pady=15)
 
+        self.login_password_entry.bind(
+            "<Return>",
+            lambda event: self.handle_login()
+        )
+        
         login_button = ctk.CTkButton(
             self.login_tab,
             text="Iniciar sesión",
