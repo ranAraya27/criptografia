@@ -10,12 +10,26 @@ class StudentAuthWindow(ctk.CTkToplevel):
         super().__init__(master)
 
         self.title("Estudiante - Login / Registro")
-        self.geometry("600x500")
+        self.geometry("1000x650")
         self.resizable(False, False)
         self.configure(fg_color="#071323")
 
+        # close correctly
+        self.protocol("WM_DELETE_WINDOW", self.on_closing)
         self.create_widgets()
 
+    # function to close correctly 
+    def on_closing(self):
+        """Cierra correctamente la aplicación"""
+        self.quit()
+        self.destroy()
+    #  Para Regresar al menu:
+    # def on_closing(self):
+    #     """Cierra la ventana y vuelve a la principal"""
+    #     if self.master:
+    #         self.master.deiconify()
+    #     self.destroy()
+        
     def create_widgets(self):
         title = ctk.CTkLabel(
             self,
@@ -50,6 +64,19 @@ class StudentAuthWindow(ctk.CTkToplevel):
         self.create_login_tab()
         self.create_signup_tab()
 
+        back_button = ctk.CTkButton(
+            self,
+            text="← Atrás",
+            width=80,
+            height=35,
+            fg_color="#666666",
+            hover_color="#555555",
+            font=("Arial", 12),
+            command=self.go_back
+        )
+        #back_button.pack(anchor="nw", padx=15, pady=10)
+        back_button.place(x=250, y=500)
+
     def create_login_tab(self):
         self.login_email_entry = ctk.CTkEntry(
             self.login_tab, width=380, height=45, placeholder_text="Correo electrónico"
@@ -65,6 +92,11 @@ class StudentAuthWindow(ctk.CTkToplevel):
         )
         self.login_password_entry.pack(pady=15)
 
+        self.login_password_entry.bind(
+            "<Return>",
+            lambda event: self.handle_login()
+        )
+        
         login_button = ctk.CTkButton(
             self.login_tab,
             text="Iniciar sesión",
@@ -97,6 +129,11 @@ class StudentAuthWindow(ctk.CTkToplevel):
         )
         self.signup_password_entry.pack(pady=10)
 
+        self.signup_password_entry.bind(
+            "<Return>",
+            lambda event: self.handle_signup()
+        )
+        
         signup_button = ctk.CTkButton(
             self.signup_tab,
             text="Registrarse",
@@ -154,3 +191,13 @@ class StudentAuthWindow(ctk.CTkToplevel):
             self.tabview.set("Login")
         else:
             messagebox.showerror("Error", "Ese correo ya está registrado.")
+
+    def go_back(self):
+        if self.master:
+            self.master.deiconify()  # Mostrar ventana padre
+        self.destroy()
+    
+    # En MainWindow, override para cerrar todo:
+    def close_app(self):
+        self.quit()
+        self.destroy()

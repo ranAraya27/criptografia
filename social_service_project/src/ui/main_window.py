@@ -9,7 +9,7 @@ class MainWindow(ctk.CTk):
         super().__init__()
 
         self.title("SISSO - Sistema de Servicio Social")
-        self.geometry("800x600")
+        self.geometry("1000x650")
         self.resizable(False, False)
 
         ctk.set_appearance_mode("dark")
@@ -17,7 +17,16 @@ class MainWindow(ctk.CTk):
 
         self.configure(fg_color="#071323")
 
+        # close correctly
+        self.protocol("WM_DELETE_WINDOW", self.on_closing)
+
         self.create_widgets()
+
+    # function to close correctly oullia
+    def on_closing(self):
+        """Cierra correctamente la aplicación"""
+        self.quit()
+        self.destroy()
 
     def create_widgets(self):
         title = ctk.CTkLabel(
@@ -89,6 +98,15 @@ class MainWindow(ctk.CTk):
         self.withdraw()
         StudentAuthWindow(self)
 
+    def go_back(self):
+        if self.master:
+            self.master.deiconify()  # Mostrar ventana padre
+        self.destroy()
+    
+    # En MainWindow, override para cerrar todo:
+    def close_app(self):
+        self.quit()
+        self.destroy()
 
 if __name__ == "__main__":
     app = MainWindow()

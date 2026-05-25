@@ -15,12 +15,27 @@ class ManagerDashboard(ctk.CTkToplevel):
         super().__init__(master)
 
         self.title("Panel del Gestor")
-        self.geometry("1000x650")
+        self.geometry("1000x700")
         self.resizable(False, False)
         self.configure(fg_color="#071323")
 
+        #close correctly:
+        self.protocol("WM_DELETE_WINDOW", self.on_closing)
+        
         self.create_widgets()
 
+    # function to close correctly :
+    def on_closing(self):
+        """Cierra correctamente la aplicación"""
+        self.quit()
+        self.destroy()
+
+    # O para solo ir al menu principal:
+    # def on_closing(self):
+    #     """Cierra la ventana y vuelve a la principal"""
+    #     if self.master:
+    #         self.master.deiconify()
+    #     self.destroy()
     def create_widgets(self):
         title = ctk.CTkLabel(
             self,
@@ -45,6 +60,18 @@ class ManagerDashboard(ctk.CTkToplevel):
 
         self.create_projects_tab()
         self.create_students_tab()
+
+        back_button = ctk.CTkButton(
+            self,
+            text="Log Out",
+            width=80,
+            height=35,
+            fg_color="#e74c3c",
+            hover_color="#c0392b",
+            font=("Arial", 12, "bold"),
+            command=self.go_back
+        )
+        back_button.pack(anchor="nw", padx=15, pady=10)
 
     def create_projects_tab(self):
         form_frame = ctk.CTkFrame(
@@ -240,3 +267,13 @@ class ManagerDashboard(ctk.CTkToplevel):
                 card, text=student["email"], font=("Arial", 14), text_color="#d1d5db"
             )
             email_label.pack(padx=20, pady=(0, 12), anchor="w")
+
+    def go_back(self):
+        if self.master:
+            self.master.deiconify()  # Mostrar ventana padre
+        self.destroy()
+    
+    # En MainWindow, override para cerrar todo:
+    def close_app(self):
+        self.quit()
+        self.destroy()

@@ -9,12 +9,27 @@ class ManagerLoginWindow(ctk.CTkToplevel):
         super().__init__(master)
 
         self.title("Gestor - Login")
-        self.geometry("600x430")
+        self.geometry("1000x650")
         self.resizable(False, False)
         self.configure(fg_color="#071323")
 
+        # close correctly:
+        self.protocol("WM_DELETE_WINDOW", self.on_closing)
         self.create_widgets()
 
+    #function to close correctly:
+
+    def on_closing(self):
+        """Cierra correctamente la aplicación"""
+        self.quit()
+        self.destroy()
+        # Para Regresar a la ventana principaL:
+    # def on_closing(self):
+    #     """Cierra la ventana y vuelve a la principal"""
+    #     if self.master:
+    #         self.master.deiconify()
+    #     self.destroy()
+        
     def create_widgets(self):
         title = ctk.CTkLabel(
             self, text="Gestor SISSO", font=("Arial", 32, "bold"), text_color="white"
@@ -30,7 +45,7 @@ class ManagerLoginWindow(ctk.CTkToplevel):
         subtitle.pack(pady=(0, 30))
 
         form_frame = ctk.CTkFrame(
-            self, width=500, height=260, corner_radius=15, fg_color="#1f2937"
+            self, width=500, height=300, corner_radius=15, fg_color="#1f2937"
         )
         form_frame.pack()
         form_frame.pack_propagate(False)
@@ -67,6 +82,7 @@ class ManagerLoginWindow(ctk.CTkToplevel):
         )
         self.password_entry.pack(pady=(0, 20))
 
+        self.password_entry.bind("<Return>", self.handle_login)
         login_button = ctk.CTkButton(
             form_frame,
             text="Iniciar",
@@ -79,13 +95,36 @@ class ManagerLoginWindow(ctk.CTkToplevel):
         )
         login_button.pack()
 
-    def handle_login(self):
+        back_button = ctk.CTkButton(
+            self,
+            text="← Atrás",
+            width=80,
+            height=35,
+            fg_color="#666666",
+            hover_color="#555555",
+            font=("Arial", 12),
+            command=self.go_back
+        )
+        # back_button.pack(anchor="nw", padx=15, pady=10)
+        back_button.place(x=250, y=450)
+        
+    def handle_login(self,event=None):
         username = self.username_entry.get().strip()
         password = self.password_entry.get().strip()
-
+        
         if username == "admin" and password == "admin":
             messagebox.showinfo("Login exitoso", "Bienvenido, gestor.")
             ManagerDashboard(self.master)
             self.destroy()
         else:
             messagebox.showerror("Error", "Usuario o contraseña incorrectos.")
+
+    def go_back(self):
+        if self.master:
+            self.master.deiconify()  # Mostrar ventana padre
+        self.destroy()
+    
+    # En MainWindow, override para cerrar todo:
+    def close_app(self):
+        self.quit()
+        self.destroy()
