@@ -20,4 +20,4 @@ venv/
 *.pem
 
 # Ignore Data 
-./data/*
+/data/*
