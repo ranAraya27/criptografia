@@ -129,6 +129,11 @@ class StudentAuthWindow(ctk.CTkToplevel):
         )
         self.signup_password_entry.pack(pady=10)
 
+        self.signup_password_entry.bind(
+            "<Return>",
+            lambda event: self.handle_signup()
+        )
+        
         signup_button = ctk.CTkButton(
             self.signup_tab,
             text="Registrarse",
