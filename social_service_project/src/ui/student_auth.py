@@ -121,18 +121,6 @@ class StudentAuthWindow(ctk.CTkToplevel):
         )
         signup_button.pack(pady=15)
 
-        back_button = ctk.CTkButton(
-            self,
-            text="← Atrás",
-            width=80,
-            height=35,
-            fg_color="#666666",
-            hover_color="#555555",
-            font=("Arial", 12),
-            command=self.go_back
-        )
-        back_button.pack(anchor="nw", padx=15, pady=10)
-
     def handle_login(self):
         email = self.login_email_entry.get().strip()
         password = self.login_password_entry.get().strip()
