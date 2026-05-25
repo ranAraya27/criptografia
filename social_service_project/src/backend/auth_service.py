@@ -12,7 +12,7 @@ HEADERS = ["student_id", "name", "email", "password_hash", "public_key"]
 def initialize_students_file():
     os.makedirs("data", exist_ok=True)
 
-    if not os.path.exists(STUDENTS_FILE):
+    if not os.path.exists(STUDENTS_FILE) or os.path.getsize(STUDENTS_FILE) == 0:
         with open(STUDENTS_FILE, "w", newline="", encoding="utf-8") as file:
             writer = csv.writer(file)
             writer.writerow(HEADERS)
